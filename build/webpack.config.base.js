@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const ctxPath = path.resolve(__dirname, '../')
 const srcPath = path.resolve(__dirname, '../src')
 
@@ -55,6 +56,11 @@ module.exports = {
         extensions: ['*', '.js', 'jsx', 'tsx', '.ts', '.json']
     },
     plugins: [
+        new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[chunkhash].js',
+            ignoreOrder: true
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: path.join(`${ctxPath}/public`, 'index.html'),  //html模版路径

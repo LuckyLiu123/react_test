@@ -7,6 +7,7 @@ import Test from './view/test'
 ReactDOM.render(
     <Router>
         <Switch>
+            {/* <Route path="/" component={App}/> */}
             <Route path="/app" component={App}/>
             <Route path="/test" component={Test}/>
         </Switch>
