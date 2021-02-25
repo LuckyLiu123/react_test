@@ -67,6 +67,39 @@ export default (() => {
                 }
                 return param;
             }
+
+            async componentDidMount(){
+                if(this.hasLoadedComponent()){
+                    return;
+                }
+                const paramStr = this.initParam(this.props.location);
+                if(paramStr){
+                    window.history.replaceState('', '', `#${this.props.location.pathname}?${encodeURIComponent(paramStr)}`);
+                }
+                preComponent = preComponent ? preComponent : await importComponent();
+                if(!firstFlag){
+                    firstFlag = true;
+                }
+                const {default: component} = preComponent;
+                this.setState({
+                    component: component
+                })
+            }
+
+            hasLoadedComponent() {
+                return this.state.component !== null;
+            }
+
+            componentWillUnmount(){
+                this.state = (state, callback) => {
+                    return
+                }
+            }
+
+            isJson(obj){
+                var isJson = typeof(obj) == 'object' && Object.prototype.toString.call(obj).toLowerCase() === '[object object]' && !obj.length;
+                return isJson;
+            }
         }
     }
 })
