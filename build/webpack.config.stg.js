@@ -39,5 +39,38 @@ module.exports = merge(baseConfig, {
                 }]
             }
         })
-    ]
+    ],
+    optimization: {
+        runtimeChunk: 'single',
+        moduleIds: 'hashed',  //告诉webpack在选择模块id时使用哪种算法。设置优化
+        nameChunks: true,  //告知 webpack 使用可读取 chunk 标识符(readable chunk identifiers)，来帮助更好地调试
+        splitChunks: {
+            chunks: 'all',
+            minSize: 0,
+            cacheGroups: {
+                vendor: {
+                    name: 'vendor',
+                    chunks: 'all',  //必须三选一： "initial" | "all" | "async"(默认就是异步)
+                    reuseExistingChunks: true,
+                    priority: -5,
+                    minChunks: 2,
+                    maxInitialRequests: 35,
+                    enforce: true,
+                    test: /[\\/]node_modules[\\/]/,
+                },
+                vivagraph: {
+                    name: 'vivagraph',
+                    chunks: 'all',
+                    priority: -1,
+                    test: /[\\/]src[\\/]components[\\/]third[\\/]vivagraph[\\.]js/,
+                },
+                react: {
+                    name: 'react',
+                    chunks: 'all',
+                    priority: -1,
+                    test: /[\\/]node_modules[\\/](react||react-dom)[\\/]/
+                }
+            }
+        }
+    }
 })
