@@ -1,16 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HashRouter as Router, Switch, Route, } from 'react-router-dom'
-import App from './app'
-import Test from './view/test'
+import { HashRouter, Switch, } from 'react-router-dom'
+import Router from '@/routes'
 
 ReactDOM.render(
-    <Router>
+    <HashRouter>
         <Switch>
-            {/* <Route path="/" component={App}/> */}
-            <Route path="/app" component={App}/>
-            <Route path="/test" component={Test}/>
+            <Router />
         </Switch>
-    </Router>,
+    </HashRouter>,
     document.getElementById('root')
 )

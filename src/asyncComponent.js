@@ -97,9 +97,35 @@ export default (() => {
             }
 
             isJson(obj){
-                var isJson = typeof(obj) == 'object' && Object.prototype.toString.call(obj).toLowerCase() === '[object object]' && !obj.length;
+                var isJson = typeof(obj) === 'object' && Object.prototype.toString.call(obj).toLowerCase() === '[object object]' && !obj.length;
                 return isJson;
             }
+
+            initParam(location){  //将location 中的参数转化为 url 参数
+                const param = location;
+                let paramStr = '';
+                Object.keys(param).forEach((key) => {
+                    if(this.conArray.includes(key)){
+                        return;
+                    }
+                    if(param[key]){
+                        paramStr = paramStr + key + '=' + (this.isJson(param[key]) ? JSON.stringify(param[key]) : param[key]) + '&';
+                    }
+                })
+                return paramStr ? paramStr.substring(0, paramStr.length - 1) : paramStr;
+            }
+
+            render(){
+                const C = this.state.component;
+                const props = {...this.props};
+                let location = this.props.location;
+                const param = this.initSearch();
+                param.query = param.query || {};
+                location = {...location, ...param};
+                props.location = location;
+                return C ? <C {...props} /> : null;
+            }
         }
+        return AsyncComponent;
     }
-})
+})();
