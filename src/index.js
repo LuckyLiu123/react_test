@@ -11,6 +11,11 @@ ReactDOM.render(
             <Route key="/Layout" path="/*" component={Layout} />
         </Switch>
     </HashRouter>,
-    // <p>Hello World!</p>,
     document.getElementById('root')
 )
+
+//当使用了module.hot.accept后，热更新只会更新对应的模块，并不会刷新整个页面。
+if (module.hot) {
+    // 实现热更新
+    module.hot.accept();
+}

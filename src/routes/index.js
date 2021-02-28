@@ -35,7 +35,7 @@ export default class extends Component{
                                 key={route.path}
                                 path={route.path}
                                 render={(props) => {
-                                    console.log('props=>>', props);
+                                    // console.log('props=>>', props);
                                     if(props.location.pathname != route.path || this._beforeRender(props, route.path)){
                                         return <route.component {...props}  />  //keyValue={keyValue}
                                     }else{

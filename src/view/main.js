@@ -8,7 +8,7 @@ export default class extends Component{
 
     render(){
         return <div>
-            <p>main.js</p>
+            <p>main.js123</p>
         </div>
     }
 }
