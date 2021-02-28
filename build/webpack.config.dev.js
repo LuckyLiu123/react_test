@@ -6,6 +6,7 @@ const webpack = require('webpack')
 const NODE_ENV = process.env.NODE_ENV
 const ctxPath = path.resolve(__dirname, '../')
 const distPath = path.join(ctxPath, 'dist')
+const config = require('../config/dev/index.js')
 
 const devConfig = merge(baseConfig, {
     mode: 'development',
@@ -45,6 +46,13 @@ if(NODE_ENV === 'mock'){
     devConfig.devServer.before = function(app){
         app.get('/mock/*', mockResult)
         app.post('/mock/*', mockResult)
+    }
+}else{
+    devConfig.devServer.proxy = {
+        '/api': {
+            target: config.proxyHost,
+            secure: false
+        }
     }
 }
 

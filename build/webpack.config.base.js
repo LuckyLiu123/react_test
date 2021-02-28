@@ -26,15 +26,22 @@ module.exports = {
                 //.scss 解析
                 test: /\.s?css$/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            publicPath: '../'
-                        }
-                    },
+                    // {
+                    //     loader: MiniCssExtractPlugin.loader,
+                    //     options: {
+                    //         publicPath: '../'
+                    //     }
+                    // },
+                    "style-loader",
                     "css-loader",
                     "postcss-loader",
-                    "sass-loader"
+                    "sass-loader",
+                    // {
+                    //     loader: 'sass-resources-loader',
+                    //     options: {
+                    //         resources: [`${ctxPath}/src/styles/base.scss`]
+                    //     }
+                    // }
                 ]
             },
             {

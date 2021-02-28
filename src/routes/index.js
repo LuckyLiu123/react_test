@@ -20,27 +20,32 @@ const routes = [
 ]
 
 export default class extends Component{
+    constructor(props){
+        super(props);
+    }
+
     render(){
-        const { keyValue } = this.props
+        // const { keyValue } = this.props
         return (
             <Router>
                 <Switch>
                     {
                       routes.map((route, index) => {
-                        <Route 
-                            key={route.path}
-                            path={route.path}
-                            render={(props) => {
-                                if(props.location.pathname != route.path || this._beforeRender(props, route.path)){
-                                    return <route.component {...props} keyValue={keyValue} />
-                                }else{
-                                    return <Redirect to='/main' />
-                                }
-                            }}
-                        />
-                      })  
+                        return <Route 
+                                key={route.path}
+                                path={route.path}
+                                render={(props) => {
+                                    console.log('props=>>', props);
+                                    if(props.location.pathname != route.path || this._beforeRender(props, route.path)){
+                                        return <route.component {...props}  />  //keyValue={keyValue}
+                                    }else{
+                                        return <Redirect to='/main' />
+                                    }
+                                }}
+                            />
+                        })  
                     }
-                    <Redirect from='/' to='/Redirect' />
+                    <Redirect from='/' to='/main' />
                 </Switch>
             </Router>
         )
