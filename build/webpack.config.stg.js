@@ -6,7 +6,7 @@ const outPath = path.join(ctxPath, 'dist')
 const webpack = require('webpack')
 const config = require('../config/stg/index')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const fileManagerPlugin = require('filemanager-webpack-plugin')
+const FileManagerPlugin = require('filemanager-webpack-plugin')
 
 module.exports = merge(baseConfig, {
     mode: 'development',
@@ -28,7 +28,7 @@ module.exports = merge(baseConfig, {
         new BundleAnalyzerPlugin({
             analyzerMode: 'static'
         }),
-        new fileManagerPlugin({
+        new FileManagerPlugin({
             onEnd: {
                 delete: [
                     `${outPath}.zip`,  //删除以前的zip包
@@ -43,7 +43,7 @@ module.exports = merge(baseConfig, {
     optimization: {
         runtimeChunk: 'single',
         moduleIds: 'hashed',  //告诉webpack在选择模块id时使用哪种算法。设置优化
-        nameChunks: true,  //告知 webpack 使用可读取 chunk 标识符(readable chunk identifiers)，来帮助更好地调试
+        namedChunks: true,  //告知 webpack 使用可读取 chunk 标识符(readable chunk identifiers)，来帮助更好地调试
         splitChunks: {
             chunks: 'all',
             minSize: 0,
@@ -51,7 +51,7 @@ module.exports = merge(baseConfig, {
                 vendor: {
                     name: 'vendor',
                     chunks: 'all',  //必须三选一： "initial" | "all" | "async"(默认就是异步)
-                    reuseExistingChunks: true,
+                    reuseExistingChunk: true,
                     priority: -5,
                     minChunks: 2,
                     maxInitialRequests: 35,

@@ -44,14 +44,16 @@ module.exports = merge(baseConfig, {
         runtimeChunk: 'single',
         minimize: true,
         moduleIds: 'hashed',  //告诉webpack在选择模块id时使用哪种算法。设置优化
-        nameChunks: true,
+        namedChunks: true,
         minimizer: [
             new TerserPlugin({
-                compress: {
-                    warnings: false,
-                    drop_console: true,
-                    drop_debugger: true,
-                    pure_funcs: ['console.log']
+                terserOptions: {
+                    compress: {
+                        warnings: false,
+                        drop_console: true,
+                        drop_debugger: true,
+                        pure_funcs: ['console.log']
+                    }
                 }
             })
         ],
@@ -60,18 +62,18 @@ module.exports = merge(baseConfig, {
             minSize: 0,
             cacheGroups: {
                 default: {
-                    chunk: 'all',
+                    chunks: 'all',
                     minSize: 3000,
                     minChunks: 2,
                     maxAsyncRequests: 2,
                     maxInitialRequests: 2,
                     priority: -20,
-                    reuseExistingChunks: true
+                    reuseExistingChunk: true
                 },
                 vendor: {
                     name: 'vendor',
                     chunks: 'all',  //必须三选一： "initial" | "all" | "async"(默认就是异步)
-                    reuseExistingChunks: true,
+                    reuseExistingChunk: true,
                     priority: -5,
                     minChunks: 2,
                     maxInitialRequests: 35,
