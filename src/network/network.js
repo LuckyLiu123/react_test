@@ -60,6 +60,84 @@ export default class{
      * }
     */
     ajax(options, cfg){
+        let self = this;
+        if(options.cp){
+            console.log(options.data);
+        }
+        if(options == null || !options.url){
+            return new Promise((resolve) => {
+                resolve(ErrorMsg.network);
+            })
+        }
+        if(isMock){
+            return reqwest({
+                url: `/mock/${options.url}`
+            })
+        }
+        cfg = Object.assign({
+            req: true,
+            res: true
+        }, cfg);
 
+        options.host = options.options || config.host;
+        let url = `${options.host}${options.url}`;
+        options.method = options.method || 'post';
+        options.data = options.data || {};
+        options.timeout = options.timeout || configs.timeout;
+
+        //加签加密
+        // try{
+        //     options.data = self.processRequest(options.data, cfg);
+        // } catch (e){
+        //     return new Promise((resolve) => {
+        //         resolve(Object.assign(ErrorMsg.params, {
+        //             error: e.message
+        //         }));
+        //     })
+        // }
+
+        const optionsUrl = options.url;
+        delete options.url;
+        delete options.host;
+        delete options.encRes;
+        delete options.encReq;
+        options.crossOrigin = true;
+        options.withCredentials = true;
+        options.processData = false;
+        options.data = JSON.stringify(options.data);
+        options.type = 'json';
+        options.contentType = 'application/json';
+
+        //网路请求
+        return new Promise((resolve) => {
+            var ts = +new Date();
+            options.error = (err) => {
+                let tt = Math.abs(+new Date() - ts);
+                if(Math.abs(options.timeout - tt) < 50){
+                    resolve(Object.assign(ErrorMsg.network, {
+                        error: err
+                    }))
+                }
+            }
+
+            reqwest({url, ...options}).then((result) => {
+                try{
+                    result.data = result.responseData;
+                    result.code = result.responseCode;
+                    result.msg = result.responseMessage || ErrorMsg.result;
+                    delete result.responseData;
+                    delete result.responseCode;
+                    delete result.responseMessage;
+                    if(result.code === '900092'){
+                        message.error('用户未登陆，请登陆');
+                        history.push('/login');
+                    }else{
+
+                    }
+                } catch (e){
+                    
+                }
+            })
+        })
     }
 }
