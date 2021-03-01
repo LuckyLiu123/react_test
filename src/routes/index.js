@@ -3,6 +3,7 @@ import asyncComponent from '@/asyncComponent';
 
 const MainView = asyncComponent(() => import(/* webpackChunkName: "MainView" */'@/view/main'));
 const TestView = asyncComponent(() => import(/* webpackChunkName: "TestView" */'@/view/test'));
+const LoginView = asyncComponent(() => import(/* webpackChunkName: "LoginView" */'@/view/login'));
 
 import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import { message } from 'antd';
@@ -16,6 +17,11 @@ const routes = [
         path: '/test',
         component: TestView,
         name: 'test'
+    },
+    {
+        path: '/login',
+        component: LoginView,
+        name: 'login'
     }
 ]
 

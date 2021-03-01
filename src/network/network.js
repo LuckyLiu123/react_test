@@ -132,11 +132,23 @@ export default class{
                         message.error('用户未登陆，请登陆');
                         history.push('/login');
                     }else{
-
+                        if(result.code !== '000000'){
+                            message.error(result.msg, 3, () => {
+                                resolve(result);
+                            })
+                        }else{
+                            resolve(result);
+                        }
                     }
                 } catch (e){
-                    
+                    resolve(Object.assign(ErrorMsg.data, {
+                        error: e.message
+                    }))
                 }
+            }).fail((e) => {
+                resolve(Object.assign(ErrorMsg.network, {
+                    error: e
+                }))
             })
         })
     }
